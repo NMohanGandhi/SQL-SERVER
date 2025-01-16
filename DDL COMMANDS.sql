@@ -1,97 +1,72 @@
--- DDL(DATA DEFINITION LANGUAGE) COMMANDS
+-- DDL (Data Definition Language) Commands
+-- Commands: CREATE, ALTER, DROP, TRUNCATE, RENAME
 
-/*  CREATE
-    ALTER
-	DROP
-	TRUNCATE
-	RENAME
-*/
+-- 1. CREATE a table using the CREATE command
+CREATE TABLE emp (
+    eid TINYINT,
+    ename CHAR(10),
+    basic_sal INT
+);
 
--- 1.CREATE A TABLE BY USING CREATE COMMAND
-create table emp(
-                 eid tinyint,
-				 ename char(10),
-				 basic_sal int
-				 );
-/*
+-- Show the table structure
+-- Using sp_help with or without quotes
+sp_help emp;
+EXEC sp_help 'emp'; -- No error for EXEC command
 
-SHOW THE TABLE STRUCTURE BY USING 
-    SP_HELP TBNAME OR SP_HELP 'TBNAME'(WITH QUOTES OR WITHOUT QUOTES)
-	                             OR
-EXCE SP_HELP TBNAME OR EXEC SP_HELP 'TBNAME'(WITH QUOTES OR WITHOUT QUOTES)
+-- 2. ALTER
+-- ALTER command operations:
+-- 1. ALTER - ADD: Add new columns to the table
+-- 2. ALTER - ALTER: Change the data type of a column
+-- 3. ALTER - DROP: Remove a column from the table
 
-*/
+-- Add a single column
+ALTER TABLE emp ADD mob BIGINT;
 
-sp_help emp ;
-SP_HELP  'EMP'; -- RAISE RED UNDERLINE ERROR
+-- Add multiple columns
+ALTER TABLE emp 
+ADD gender CHAR(6),
+    have_pan BIT,
+    age INT,
+    meal CHAR(4);
 
-exec sp_help emp; --- HERE THERE IS NO ERROR LINE
+-- Change the data type of a column
+ALTER TABLE emp ALTER COLUMN meal VARCHAR(20);
 
--- 2.ALTER
-/* BY USING ALTER COMMAND
-   1.ALTER-ADD # ADDING NEW COLUMN INTO EXISTING TABLE
-   2.ALTER - ALTER # change the DATA TYPE
-   3.ALTER - DROP  # drop column
-*/
+-- NOTE: Changing multiple column data types in one command is not allowed
+-- Example:
+-- ALTER TABLE emp ALTER COLUMN meal CHAR, age TINYINT; -- This will fail
 
--- ADDING SINGLE COLUMN
-alter table emp add  mob bigint;
+-- Drop a column
+ALTER TABLE emp DROP COLUMN meal;
 
-SELECT * FROM EMP;
+-- 3. DROP
+-- DROP command can remove tables or databases
 
---- ADDING MULTIPLE COLUMNS BY USING COMMA
-ALTER TABLE EMP ADD GENDER CHAR(6),HAVE_PAN BIT,AGE INT,MEAL CHAR(4);
+-- Create a database and table for demonstration
+CREATE DATABASE test;
+CREATE TABLE emp1 (
+    eid TINYINT,
+    ename CHAR(10),
+    basic_sal INT
+);
 
---CHNAGE THE DATATYPE OF A COLUMN
-ALTER TABLE EMP ALTER COLUMN MEAL VARCHAR;
+-- Drop the database and table
+DROP DATABASE test;
+DROP TABLE emp1;
 
---CHANGE THE DATATYPE MULTIPLE COLUMNS
-ALTER TABLE EMP ALTER COLUMN MEAL CHAR,AGE TINYINT;---WE CANT DO
+-- 4. TRUNCATE
+-- TRUNCATE command removes all data but keeps the structure of the table
+TRUNCATE TABLE emp;
 
---- ALTER-DROP A COLUMN  IN EXISTING TABLE
-SELECT * FROM EMP;
-ALTER TABLE EMP DROP COLUMN MEAL;
+-- 5. RENAME
+-- Rename a table
+EXEC sp_rename 'emp1', 'emp2';
 
---- 3.DROP
---  USING DROP COMMAND WE CAN DROP TABLES,DATABASES ALSO
-CREATE DATABASE TEST;
-create table emp1(
-                 eid tinyint,
-				 ename char(10),
-				 basic_sal int
-				 );
+-- Rename a database
+EXEC sp_renamedb 'practice', 'practice1';
+EXEC sp_renamedb 'practice1', 'practice';
 
-DROP DATABASE TEST;
-DROP TABLE EMP1;
-
---- 4.TRUNCATE
-/* USING  THE TRUNCATE COMMAND DATA WILL BE DELETED 
-   BUT THE STRUCTURE WILL REMAIN */
-
-TRUNCATE TABLE EMP1;
-
---- 5.RENAME
---- RENAME THE TABLE
-EXEC SP_RENAME 'EMP1','EMP2';
-
-SELECT * FROM EMP2;
-
--- RENAME THE DATABASE
-EXEC SP_RENAMEDB 'PRACTICE','PRACTICE1';
-EXEC SP_RENAMEDB 'PRACTICE1','PRACTICE';
-
--- RENAME THE COLUMN NAME
-EXEC SP_RENAME 'EMP2.BASIC_SAL','EMP2.SALARY';
-EXEC SP_RENAME 'EMP2.[EMP2.SALARY]','SALARY';
-
-
-
-
-
-
-
-
-
-
-
+-- Rename a column
+-- Example: Rename "basic_sal" to "salary" in "emp2" table
+EXEC sp_rename 'emp2.basic_sal', 'salary', 'COLUMN';
 
