@@ -7,6 +7,13 @@
 -- - A SQL Server database environment (e.g., Microsoft SQL Server, Azure SQL)
 -- - Basic knowledge of SQL syntax
 
+-- ## Definitions of Commands
+-- 1. CREATE: Used to create new database objects like tables, views, or databases.
+-- 2. ALTER: Allows modification of existing database objects, such as adding, modifying, or removing columns.
+-- 3. DROP: Permanently deletes database objects like tables or databases.
+-- 4. TRUNCATE: Removes all rows from a table but retains its structure.
+-- 5. RENAME: Renames existing database objects like tables, columns, or databases.
+
 -- ## 1. CREATE Command
 -- Used to create new database objects such as tables, views, or databases
 CREATE TABLE emp (
