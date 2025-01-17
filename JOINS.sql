@@ -43,6 +43,11 @@ SELECT * FROM T1;
 SELECT * FROM T2;
 
 --- ## Join Definitions and Examples
+-- 1.INNER JOIN
+-- 2.LEFT JOIN
+-- 3.RIGHT JOIN
+-- 4.FULLJOIN
+-- 5.CROSS JOIN
 
 -- ### INNER JOIN
 -- Retrieves matching records from both tables based on the join condition.
